@@ -11,6 +11,7 @@ const Main=()=>{
     const [movieData,setData]=useState([]);
     const [url_set,setUrl]=useState(url);
     const [search,setSearch]=useState();
+    const [suggest, setSuggest] = useState([]);
 
     useEffect(()=>{
         fetch(url_set).then(res=>res.json()).then(data=>{
@@ -32,19 +33,30 @@ const Main=()=>{
 
     }
 
-    const searchMovie=(evt)=>{
-        if(evt.value.length > 3)
-        {
-          console.log('super')
-        }
+    const searchMovie=(event)=>{
+ 
+      let searchval = event.target.value;
+      if(searchval.length > 0)
+      {
+        url=base_url+"/search/movie?api_key=db95773a7fb212ba790d71f6adac0e7e&query="+search;
+        setUrl(url);
+        
+         
+      }
     }
+
+    const onSearch = (e) => {
+       
+        setSearch(e);
+        
+        
+         }
 
   
             /*
             url=base_url+"/search/movie?api_key=db95773a7fb212ba790d71f6adac0e7e&query="+search;
             setUrl(url);
             setSearch(" ");*/
-       
 
     return(
         <>
@@ -55,7 +67,7 @@ const Main=()=>{
                             arr.map((value, pos)=>{
                                 return(
                                     <li>
-                                       <a href="#" key={pos} name={value} onClick={(e)=>{getData(e.target.name)}}>{value}</a>
+                                       <a href="#" key={pos} name={value} onChange={(e)=>{getData(e.target.name >2)}}>{value}</a>
                                     </li>
                                    )
                             })
@@ -66,9 +78,8 @@ const Main=()=>{
                 <form>
                     <div className='search-btn'>  
                     <input type="text" placeholder="Enter Movie Name" 
-                        className="inputText" onChange={(e)=>{setSearch(e.target.value)}} 
-                        value={search} onKeyPress={searchMovie}>
-                        </input>
+                        className="inputText" onChange={(e)=>{onSearch(e.target.value)}} value={search} onKeyPress={searchMovie}/>
+                      
                         <button>search</button>
                     </div>
                 </form>
